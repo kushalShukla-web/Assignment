@@ -9,8 +9,7 @@ A RESTful API for user authentication and book reviews built using Node.js, Expr
    git clone https://github.com/yourusername/Assignment
    cd Assignment
    npm install
-```
-```
+   
 2. **Create a .env file in the project root and add your environment variables (edit the values as needed):**:
 
 ```bash
