@@ -5,6 +5,7 @@ const Book = require('../models/Book');
 const Review = require('../models/Review');
 const mongoose = require('mongoose');
 
+// Create a new book
 router.post('/', auth, async (req, res) => {
     const { title, author, genre } = req.body;
     try {
@@ -21,6 +22,7 @@ router.post('/', auth, async (req, res) => {
     }
 });
 
+// Get books with optional filters and pagination
 router.get('/', async (req, res) => {
     const { page = 1, limit = 10, author, genre } = req.query;
     const query = {};
@@ -43,9 +45,10 @@ router.get('/', async (req, res) => {
     }
 });
 
+// Get a single book by ID along with its reviews and average rating
 router.get('/:id', async (req, res) => {
     try {
-        // Validate ObjectId
+        // Check for valid MongoDB ObjectId
         if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
             return res.status(400).json({ message: 'Invalid book ID' });
         }
@@ -55,20 +58,24 @@ router.get('/:id', async (req, res) => {
             return res.status(404).json({ message: 'Book not found' });
         }
 
+        // Fetch latest 10 reviews for this book
         const reviews = await Review.find({ book: req.params.id })
             .populate('user', 'username')
             .limit(10);
 
+        // Calculate average rating using aggregation
         let averageRating = 0;
+        const ObjectId = mongoose.Types.ObjectId;
+
         const ratingResult = await Review.aggregate([
-            { $match: { book: mongoose.Types.ObjectId(req.params.id) } },
+            { $match: { book: new ObjectId(req.params.id) } },
             { $group: { _id: null, avgRating: { $avg: '$rating' } } },
         ]);
 
         if (ratingResult.length > 0) {
             averageRating = ratingResult[0].avgRating;
         }
-console.log("wow")
+
         res.json({
             book,
             reviews,
@@ -80,6 +87,7 @@ console.log("wow")
     }
 });
 
+// Search books by title or author
 router.get('/search', async (req, res) => {
     const { q } = req.query;
     if (!q) {
