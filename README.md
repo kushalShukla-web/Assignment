@@ -77,3 +77,11 @@ Delete a book:
 ```bash
 curl -X DELETE http://localhost:3000/api/books/<bookId>
 ```
+## Database Schema
+
+<img width="801" alt="Screenshot 2025-05-20 at 1 28 18 AM" src="https://github.com/user-attachments/assets/eaa0fde2-a1b0-4480-b645-d28ab6b6e205" />
+<img width="868" alt="Screenshot 2025-05-20 at 1 28 22 AM" src="https://github.com/user-attachments/assets/ff416de8-0134-45d7-bc88-534bb5ca1b15" />
+<img width="905" alt="Screenshot 2025-05-20 at 1 28 24 AM" src="https://github.com/user-attachments/assets/b811f330-1f76-47a8-90c2-d90ffbdada4b" />
+
+
+
